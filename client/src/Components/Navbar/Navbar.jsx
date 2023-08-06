@@ -2,26 +2,18 @@ import { useState, useEffect } from "react";
 import {
   Box,
   Flex,
-  Avatar,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
+
   useColorModeValue,
   Stack,
   useColorMode,
-  Center,
   Text
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import {  useNavigate ,NavLink} from "react-router-dom";
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [token, setToken] = useState("");
   const [refresh, setRefresh] = useState(false)
   const navigate = useNavigate();
@@ -39,7 +31,7 @@ export default function Navbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("username")
     setRefresh(false)
-    navigate('/')
+    navigate('/login')
     window.location.reload()
 
 
@@ -50,22 +42,26 @@ export default function Navbar() {
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Box fontWeight="bold" > RANDOM MCQ GENERATOR</Box>
+          <Box fontWeight="bold" >💙BLUVAA💙 RANDOM MCQ GENERATOR</Box>
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Button>
-                <Link to={"/profile"}>
+                <NavLink to={"/profile"} style={({ isActive }) => ({
+                  color: isActive ? 'dodgerblue' : '#333',
+                })}>
                   <Text>{localStorage.getItem("username")}</Text>
 
-                </Link>
+                </NavLink>
               </Button>
 
               <Button>
-                <Link to={"/home"}>
+                <NavLink to={"/"} style={({ isActive }) => ({
+                  color: isActive ? 'dodgerblue' : '#333',
+                })}>
                   <Text>Home</Text>
 
-                </Link>
+                </NavLink>
               </Button>
 
 

@@ -3,14 +3,14 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
+  
   Flex,
   Heading,
   Box,
   Text,
   Container,
-  Button,
-  Center
+  Button
+  
 } from "@chakra-ui/react";
 import { Link,useNavigate } from "react-router-dom";
 function App() {
@@ -18,44 +18,17 @@ function App() {
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [profiledata, setProfiledata] = useState()
+
   const navigate = useNavigate()
 
   useEffect(() => {
     generateQuestions();
-    // getprofilequestions()
+   
 
   }, []);
 
 
-  const getprofilequestions = async () => {
-
-    fetch("http://localhost:8000/api/getprofile/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username: localStorage.getItem("username") }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data)
-        setProfiledata(data);
-        console.log(profiledata)
-        // setShowResult(true);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // setScore(0);
-        // setShowResult(true);
-      });
-  };
-
+  
   const generateQuestions = () => {
     fetch("http://localhost:8000/api/generate/")
       .then((response) => {

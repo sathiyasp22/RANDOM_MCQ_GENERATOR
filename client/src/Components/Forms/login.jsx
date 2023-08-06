@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
     Flex,
@@ -6,27 +6,21 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Checkbox,
+    
     Stack,
 
     Button,
     Heading,
     Text,
-    useColorModeValue,
+ 
 } from "@chakra-ui/react";
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    // const [token, setToken] = useState("");
+   
     const navigate = useNavigate();
 
-    // Check if the user is already logged in
-    // useEffect(() => {
-    //     const userToken = localStorage.getItem("token");
-    //     if (userToken) {
-    //         setToken(userToken);
-    //     }
-    // }, []);
+    
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -46,10 +40,10 @@ function Login() {
 
             if (response.ok) {
                 const data = await response.json();
-                // setToken(data.token);
+                
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("username", username)
-                navigate("/home");
+                navigate("/");
                 window.location.reload()
             } else {
                 alert("Invalid Username Or Password");
@@ -66,14 +60,7 @@ function Login() {
 
     return (
         <div>
-            {/* {token ? (
-                <div>
-                    <Heading mt={5}>Home Page</Heading>
-                    <Button mt={4} onClick={handleLogout}>
-                        Logout
-                    </Button>
-                </div>
-            ) : ( */}
+            
             <Flex align={"center"} justify={"center"}>
                 <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                     <Stack align={"center"}>
@@ -81,7 +68,7 @@ function Login() {
                     </Stack>
                     <Box rounded={"lg"} boxShadow={"lg"} p={8}>
                         <Stack spacing={4}>
-                            <FormControl id="email">
+                            <FormControl>
                                 <FormLabel>UserName</FormLabel>
                                 <Input
                                     type="text"
@@ -118,7 +105,7 @@ function Login() {
                     </Box>
                 </Stack>
             </Flex>
-            {/* )} */}
+            
         </div>
     );
 }

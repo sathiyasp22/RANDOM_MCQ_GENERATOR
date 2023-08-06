@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Text, Card, CardHeader, CardBody, CardFooter, Button, Container } from '@chakra-ui/react';
+import { Box, Heading, Text, Card, CardHeader, CardBody, CardFooter, Button, Container } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 
@@ -29,8 +29,7 @@ function Profile() {
             console.log(questionsdata)
         } catch (error) {
             console.error("Error:", error);
-            // setScore(0);
-            // setShowResult(true);
+           
         }
     };
 
@@ -50,14 +49,10 @@ function Profile() {
             }
 
 
-            // const data = await response.json();
-            // console.log(data);
-            // setQuestionsdata(data);
-            // console.log(questionsdata)
+            
         } catch (error) {
             console.error("Error:", error);
-            // setScore(0);
-            // setShowResult(true);
+            
         }
     };
 
@@ -82,7 +77,7 @@ function Profile() {
                                         <Text>{user.question3}</Text>
                                         <Text>{user.question4}</Text>
                                         <Text>{user.question5}</Text>
-                                        <Text>{user.uuid}</Text>
+                                      
 
                                         <Text>Correct answers : {user.scoredata} / 5</Text>
 

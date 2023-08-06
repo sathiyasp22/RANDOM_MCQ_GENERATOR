@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
     Flex,
@@ -6,28 +6,21 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Checkbox,
+    
     Stack,
 
     Button,
     Heading,
     Text,
-    useColorModeValue,
+    
 } from "@chakra-ui/react";
 function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    // const [token, setToken] = useState("");
+    
     const navigate = useNavigate();
 
-    // Check if the user is already logged in
-    // useEffect(() => {
-    //     const userToken = localStorage.getItem("token");
-    //     if (userToken) {
-    //         setToken(userToken);
-    //     }
-    // }, []);
-
+   
     const handleRegister = async (e) => {
         e.preventDefault();
         if (username === "" || password === " ") {
@@ -47,7 +40,7 @@ function Register() {
                 });
 
                 if (response.ok) {
-                    navigate("/");
+                    navigate("/login");
                 } else {
 
                     if (response.status == 409)
@@ -71,14 +64,7 @@ function Register() {
 
     return (
         <div>
-            {/* {token ? (
-                <div>
-                    <Heading mt={5}>Home Page</Heading>
-                    <Button mt={4} onClick={handleLogout}>
-                        Logout
-                    </Button>
-                </div>
-            ) : ( */}
+            
             <Flex align={"center"} justify={"center"}>
                 <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                     <Stack align={"center"}>
@@ -86,7 +72,7 @@ function Register() {
                     </Stack>
                     <Box rounded={"lg"} boxShadow={"lg"} p={8}>
                         <Stack spacing={4}>
-                            <FormControl id="email">
+                            <FormControl>
                                 <FormLabel>UserName</FormLabel>
                                 <Input
                                     type="text"
@@ -123,7 +109,7 @@ function Register() {
                     </Box>
                 </Stack>
             </Flex>
-            {/* )} */}
+            
         </div>
     );
 }
