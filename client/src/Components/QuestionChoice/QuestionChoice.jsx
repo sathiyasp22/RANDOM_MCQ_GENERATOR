@@ -10,30 +10,69 @@ import {
   Text,
   Container,
   Button,
+  Center
 } from "@chakra-ui/react";
+import { Link,useNavigate } from "react-router-dom";
 function App() {
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+  const [profiledata, setProfiledata] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     generateQuestions();
+    // getprofilequestions()
+
   }, []);
+
+
+  const getprofilequestions = async () => {
+
+    fetch("http://localhost:8000/api/getprofile/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: localStorage.getItem("username") }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data)
+        setProfiledata(data);
+        console.log(profiledata)
+        // setShowResult(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // setScore(0);
+        // setShowResult(true);
+      });
+  };
 
   const generateQuestions = () => {
     fetch("http://localhost:8000/api/generate/")
       .then((response) => {
         if (!response.ok) {
-          throw new Error("CHECK YOUR NETWORK CONNECTION");
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then((data) => setQuestions(data))
+      .then((data) => {
+        console.log(data)
+        setQuestions(data)
+      })
       .catch((error) => {
         console.error("Error:", error);
         setQuestions([]);
       });
+    console.log(questions)
   };
 
   const handleAnswerSelect = (questionId, selectedChoice) => {
@@ -62,7 +101,7 @@ function App() {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("CHECK YOUR NETWORK CONNECTION !!!");
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
@@ -75,6 +114,48 @@ function App() {
         setScore(0);
         setShowResult(true);
       });
+  };
+
+
+
+
+  const handledashboardinsert = async (e) => {
+    e.preventDefault();
+
+    const username = localStorage.getItem("username")
+
+    const datas = {
+      usernameuser: username,
+      question1: questions[0].question_text,
+      question2: questions[1].question_text,
+      question3: questions[2].question_text,
+      question4: questions[3].question_text,
+      question5: questions[4].question_text,
+      scoredata: score
+
+
+
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/api/inserttoprofile/", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datas),
+      });
+
+      if (response.ok) {
+        console.log('questions added successfully!');
+        navigate("/profile")
+        
+      } else {
+        console.error('Error adding item:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
   };
 
   return (
@@ -97,16 +178,26 @@ function App() {
                   Correct Answers: {score} / {questions.length}
                 </Text>
               </CardBody>
+              <CardBody>
+                <Button onClick={handledashboardinsert}>
+                  Save
+
+                </Button>
+
+
+
+              </CardBody>
             </Card>
           </Container>
         </Box>
       ) : (
         <Box>
           {questions.map((question) => (
-            <Container key={question.id}>
-              <Card mt={10} mb={10}>
+            <Box key={question.id} >
+              <Container maxW={"4xl"}>
+              <Card mt={10} mb={10} maxW={"3xl"}>
                 <CardHeader>
-                  <Heading size="md">{question.question_text}</Heading>
+                  <Heading textAlign={"center"} size="md">{question.question_text}</Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -160,11 +251,13 @@ function App() {
                   </Flex>
                 </CardBody>
               </Card>
-            </Container>
+              </Container>
+              
+            </Box>
           ))}
-          <Container mb={20}>
-            <Button width={"full"} colorScheme="blue" onClick={submitAnswers}>
-              SUBMIT
+          <Container mb={20}  maxW={"4xl"}>
+            <Button width={"3xl"} colorScheme="blue" onClick={submitAnswers}>
+              Get Summary
             </Button>
           </Container>
         </Box>
